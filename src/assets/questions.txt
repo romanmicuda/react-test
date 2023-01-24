@@ -1,0 +1,10 @@
+App.tsx:
+
+
+#### Hidden until fixes / follow up discussion
+- what happens when you fast click delayed decrement multiple times
+- when should I use useCallback? 
+   - when it is not needed?
+   - what is better performance (speed & memmory) wise? 
+- (expert question) what is wrong with using `sleep()` like here?
+*/
