@@ -1,10 +1,33 @@
+import { useState } from "react";
+
 interface Props {
-  onClick: () => void;
+  onClick: () => Promise<void> | void;
   children: React.ReactNode;
 }
+
 export function ActionButton(props: Props) {
   const { onClick, children } = props;
-  return <button onClick={onClick}>{children}</button>;
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+
+  console.log("ACTION BUTTON RERENDER")
+
+  const onClickHandler = async () => {
+    setError(false)
+    setLoading(true)
+    try {
+      const result = await Promise.resolve(onClick())
+    } catch (error) {
+      setError(true)
+    } 
+    setLoading(false)
+  } 
+
+  return <button onClick={onClickHandler}>
+    {loading && 'loading'}
+    {error && 'ERROR'}
+    {children}
+  </button>;
 }
 
 /**
