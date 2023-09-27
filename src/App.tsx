@@ -8,9 +8,7 @@ function App() {
     setCount(count + 1);
   };
 
-  const decrement = useCallback(
-    () => setCount(count - 1)
-  , [count]);
+  const decrement = useCallback(() => setCount(count - 1), []);
 
   return (
     <div>
@@ -18,7 +16,11 @@ function App() {
       <p>Count: {count}</p>
       <ActionButton onClick={handleClick}>Increment</ActionButton>
       <ActionButton onClick={decrement}>Decrement</ActionButton>
-      {/* <ActionButton onClick={() => sleep().then(() => setCount(currentCount => currentCount - 1))}>
+      <ActionButton
+        onClick={() =>
+          sleep().then(() => setCount((currentCount) => currentCount - 1))
+        }
+      >
         Delayed Decrement
       </ActionButton>
       <ActionButton
@@ -26,7 +28,7 @@ function App() {
       >
         Failing Action
       </ActionButton>
-      <ActionButton onClick={() => setCount(0)}>Reset</ActionButton> */}
+      <ActionButton onClick={() => setCount(0)}>Reset</ActionButton>
     </div>
   );
 }
