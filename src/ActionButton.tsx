@@ -7,8 +7,30 @@ interface Props {
 
 export function ActionButton(props: Props) {
   const { onClick, children } = props;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  return <button onClick={onClick}>{children}</button>;
+  const handleClick = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const result = onClick();
+      if (result instanceof Promise) {
+        await result;
+      }
+    } catch (err) {
+      console.log("error happend");
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button onClick={handleClick} disabled={loading}>
+      {loading ? "loading" : error ? "ERROR" : children}
+    </button>
+  );
 }
 
 /**
@@ -19,4 +41,7 @@ export function ActionButton(props: Props) {
 
 /*
 expert question - why mnemoisation of this component won't help?
+Memoization helps avoid re-renders when props and state have not changed.
+However, in this case, the state changes with every user interaction.
+
 */
